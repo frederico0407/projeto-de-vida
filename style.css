@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+:root {
+    /* Paleta Bad Boy: Escura, industrial e agressiva */
+    --cor-fundo-externo: #0a0a0c; /* Preto profundo, quase asfalto */
+    --cor-fundo-card: #121216;    /* Cinza escuro fosco para os blocos */
+    --cor-divisoria: #26262b;     /* Cinza grafite para cortes secos */
+    --cor-texto: #e2e2e6;         /* Branco acinzentado, alto contraste */
+    --cor-texto-suave: #6c6c75;   /* Cinza fumaça para o que importa menos */
+    --cor-destaque-badboy: #ff003c; /* Vermelho carmesim vivo/neon, puro perigo */
+    --cor-detalhe-frio: #1a1a24;  /* Tom de suporte escuro */
+}
+
+body {
+    background-color: var(--cor-fundo-externo);
+    color: var(--cor-texto);
+    /* JetBrains Mono traz aquela pegada "coder/underground" */
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    /* Linhas de grade sutis, lembrando uma tela de radar ou ambiente cibernético */
+    background-image:
+        linear-gradient(rgba(255, 0, 60, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 0, 60, 0.02) 1px, transparent 1px);
+    background-size: 30px 30px;
+}
+
+/* O container que segura o título e o card */
+.conteudo-principal {
+    width: 90%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Título principal "Meus Objetivos do ano_" */
+.titulo-principal {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.2rem;
+    text-align: center;
+    margin: 0 0 10px 0;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--cor-texto);
+    text-shadow: 0 0 10px rgba(255, 0, 60, 0.2);
+}
+
+/* O cursor piscando agora é um alerta vermelho */
+.titulo-principal span {
+    color: var(--cor-destaque-badboy);
+    text-shadow: 0 0 8px var(--cor-destaque-badboy);
+    animation: pisca 0.8s infinite steps(2); /* Piscar seco estilo terminal */
+}
+
+/* GRUPO DOS BOTÕES (Parte de cima do card) */
+.botoes {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--cor-fundo-card);
+    border-top-left-radius: 0px; /* Cantos retos e brutos */
+    border-top-right-radius: 0px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--cor-divisoria);
+    border-bottom: none;
+}
+
+.botao {
+    background-color: transparent;
+    border: none;
+    color: var(--cor-texto-suave);
+    padding: 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-align: left; /* Alinhamento imponente à esquerda */
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    border-bottom: 1px solid var(--cor-divisoria);
+}
+
+.botao:last-child {
+    border-bottom: none;
+}
+
+.botao:hover {
+    background-color: var(--cor-detalhe-frio);
+    color: var(--cor-texto);
+    padding-left: 25px; /* Deslocamento agressivo no hover */
+}
+
+/* O botão Ativo */
+.botao.ativo {
+    background-color: rgba(255, 0, 60, 0.05);
+    color: var(--cor-destaque-badboy);
+}
+
+/* A linha de destaque lateral (estilo menu cyberpunk) */
+.botao.ativo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px; /* Linha vertical afiada à esquerda */
+    height: 100%;
+    background-color: var(--cor-destaque-badboy);
+    box-shadow: 0 0 10px var(--cor-destaque-badboy); /* Brilho neon */
+    z-index: 2;
+}
+
+/* GRUPO DOS TEXTOS (Parte de baixo do card) */
+.abas-textos {
+    background-color: var(--cor-fundo-card);
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    margin-top: -20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    border: 1px solid var(--cor-divisoria);
+}
+
+/* Estilização dos Conteúdos internos */
+.aba-conteudo {
+    display: none;
+    padding: 40px 30px;
+    text-align: left; /* Alinhado à esquerda para manter a seriedade */
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.aba-conteudo.ativo {
+    display: block;
+    animation: fadeIn 0.4s ease-out; /* Transição rápida ao alternar abas */
+}
+
+.aba-conteudo-titulo-principal {
+    font-family: 'Orbitron', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--cor-destaque-badboy);
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+/* ANIMAÇÕES */
+@keyframes pisca {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
