@@ -1,55 +1,51 @@
-const botoes = document.querySelectorAll('.botao');
-const abasTextos = document.querySelectorAll('.aba-conteudo');
+const botoes = document.querySelectorAll(".botao");
+const textos = document.querySelectorAll(".aba-conteudo");
 
-botoes.forEach((botao, index) => {
-    botao.addEventListener('click', () => {
-        // Remove a classe 'ativo' de todos os botões e abas
-        botoes.forEach(b => b.classList.remove('ativo'));
-        abasTextos.forEach(a => a.classList.remove('ativo'));
-
-        // Adiciona a classe 'ativo' apenas no botão e aba clicados
-        botao.classList.add('ativo');
-        abasTextos[index].classList.add('ativo');
-    });
-});
-
-const dataObjetivo = new Date("2026-12-31T23:59:59").getTime();
-
-function atualizaContador() {
-    const agora = new Date().getTime();
-    const tempoRestante = dataObjetivo - agora;
-
-    // Cálculos de tempo para Dias, Horas, Minutos e Segundos
-    const dias = Math.floor(tempoRestante / (1000 * 60 * 60 * 24));
-    const horas = Math.floor((tempoRestante % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutos = Math.floor((tempoRestante % (1000 * 60 * 60)) / (1000 * 60));
-    const segundos = Math.floor((tempoRestante % (1000 * 60)) / 1000);
-
-    // Define se usa singular ou plural para cada unidade de tempo
-    const txtDias = dias === 1 ? "dia" : "dias";
-    const txtHoras = horas === 1 ? "hora" : "horas";
-    const txtMinutos = minutos === 1 ? "minuto" : "minutos";
-    const txtSegundos = segundos === 1 ? "segundo" : "segundos";
-
-    // Texto formatado com o nome inteiro
-    const textoCronometro = `${dias} ${txtDias} ${horas} ${txtHoras} ${minutos} ${txtMinutos} ${segundos} ${txtSegundos}`;
-
-    // Atualiza o contador de TODAS as abas (já que o prazo final é o mesmo)
-    for (let i = 0; i < 4; i++) {
-        const elementoContador = document.getElementById(`contador${i}`);
-        
-        if (elementoContador) {
-            if (tempoRestante > 0) {
-                elementoContador.innerHTML = textoCronometro;
-            } else {
-                elementoContador.innerHTML = "Prazo Encerrado!";
-            }
-        }
+for (let i = 0; i < botoes.length; i++) {
+  botoes[i].onclick = function () {
+    for (let j = 0; j < botoes.length; j++) {
+      botoes[j].classList.remove("ativo");
+      textos[j].classList.remove("ativo");
     }
+    botoes[i].classList.add("ativo");
+    textos[i].classList.add("ativo");
+  };
 }
 
-// Executa a função imediatamente para não começar em branco
-atualizaContador();
+const contadores = document.querySelectorAll(".contador");
 
-// Atualiza o cronômetro a cada 1 segundo (1000 milissegundos)
-setInterval(atualizaContador, 1000);
+const tempoObjetivo1 = new Date("2026-07-30T00:00:00");
+const tempoObjetivo2 = new Date("2026-09-15T00:00:00");
+const tempoObjetivo3 = new Date("2026-11-20T00:00:00");
+const tempoObjetivo4 = new Date("2026-12-15T00:00:00");
+
+const tempos = [tempoObjetivo1, tempoObjetivo2, tempoObjetivo3, tempoObjetivo4];
+
+function calculaTempo(tempoObjetivo) {
+  let tempoAtual = new Date();
+  let tempoFinal = tempoObjetivo - tempoAtual;
+
+  if (tempoFinal <= 0) {
+    return "Prazo finalizado";
+  }
+  
+  let segundos = Math.floor(tempoFinal / 1000);
+  let minutos = Math.floor(segundos / 60);
+  let horas = Math.floor(minutos / 60);
+  let dias = Math.floor(horas / 24);
+
+  segundos %= 60;
+  minutos %= 60;
+  horas %= 24;
+
+  return dias + " dias " + horas + " horas " + minutos + " minutos " + segundos + " segundos";
+}
+
+function atualizaContadores() {
+  for (let i = 0; i < contadores.length; i++) {
+    contadores[i].textContent = calculaTempo(tempos[i]);
+  }
+}
+
+atualizaContadores();
+setInterval(atualizaContadores, 1000);
